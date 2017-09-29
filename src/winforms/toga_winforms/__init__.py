@@ -18,10 +18,10 @@ from .widgets.optioncontainer import *
 from .widgets.passwordinput import *
 from .widgets.progressbar import *
 # from .widgets.scrollcontainer import *
-# from .widgets.splitcontainer import *
+from .widgets.splitcontainer import *
 from .widgets.table import *
 from .widgets.textinput import *
-# from .widgets.tree import *
+from .widgets.tree import *
 from .widgets.webview import *
 # from .widgets.selection import Selection
 from .widgets.numberinput import NumberInput
@@ -44,13 +44,15 @@ __all__ = [
     'ProgressBar',
     # 'ScrollContainer',
     # 'Selection',
-    # 'SplitContainer',
+    'SplitContainer',
     'Table',
     'TextInput',
     'PasswordInput',
-    # 'Tree',
+    'Tree',
     'WebView',
 ]
+
+
 
 # Examples of valid version strings
 # __version__ = '1.2.3.dev1'  # Development release 1
