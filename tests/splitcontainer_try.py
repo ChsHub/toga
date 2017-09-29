@@ -12,11 +12,13 @@ class SplitContainerTry(toga.App):
         self.main_window = toga.MainWindow(self.name)
         self.main_window.app = self
 
-        tree = SplitContainer()
+        split_c = SplitContainer(direction=SplitContainer.HORIZONTAL)
+        split_c.content = [toga.Label("Hi"), toga.TextInput()]
 
 
+        split_c.direction = SplitContainer.HORIZONTAL
 
-        self.main_window.content = tree
+        self.main_window.content = split_c
         self.main_window.show()
 
 

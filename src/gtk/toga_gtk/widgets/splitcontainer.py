@@ -22,15 +22,13 @@ class SplitContainer(SplitContainerInterface, WidgetMixin):
         self._impl._interface = self
 
     def _add_content(self, position, container):
-        if position >= 2:
-            raise ValueError('SplitContainer content must be a 2-tuple')
 
         if position == 0:
-            add = self._impl.add1
+            self._impl.add1(container._impl)
         elif position == 1:
-            add = self._impl.add2
-
-        add(container._impl)
+            self._impl.add2(container._impl)
+        else:
+            raise ValueError('SplitContainer content must be a 2-tuple')
 
     def _set_app(self, app):
         if self._content:

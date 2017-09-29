@@ -18,11 +18,7 @@ class SplitContainer(SplitContainerInterface, WidgetMixin):
         self._container = self
         self._impl = WinForms.SplitContainer()
 
-        # The default direction is vertical
-        if self.direction == self.HORIZONTAL:
-            self._impl.Orientation = WinForms.Orientation.Horizontal
-
-            # self._impl._interface = self
+        # self._impl._interface = self
 
     def _add_content(self, position, container):
 
@@ -44,23 +40,29 @@ class SplitContainer(SplitContainerInterface, WidgetMixin):
             self._content[1].window = self.window
 
     def _set_direction(self, value):
-        pass
+
+        if self.direction == self.HORIZONTAL:
+            self._impl.Orientation = WinForms.Orientation.Horizontal
+        elif self.direction == self.VERTICAL:
+            self._impl.Orientation = WinForms.Orientation.Vertical
+        else:
+            raise ValueError('Direction must be SplitContainer.VERTICAL or SplitContainer.HORIZONTAL')
 
     def _update_child_layout(self):
-        """Force a layout update on the widget.
-        """
-        if self.content and self._impl.is_visible():
+        # Force a layout update on the widget.
+
+        if self.content and self._impl.Visible:
             if self.direction == SplitContainer.VERTICAL:
-                size = self._impl.get_allocation().width
+                size = self._impl.Width
                 if self._ratio is None:
                     self._ratio = 0.5
-                    self._impl.set_position(size * self._ratio)
+                    # self._impl.set_position(size * self._ratio)
                 self._containers[0]._update_layout(width=size * self._ratio)
                 self._containers[1]._update_layout(width=size * (1.0 - self._ratio))
             else:
-                size = self._impl.get_allcoation().height
+                size = self._impl.Height
                 if self._ratio is None:
                     self._ratio = 0.5
-                    self._impl.set_position(size * self._ratio)
+                    # self._impl.set_position(size * self._ratio)
                 self._containers[0]._update_layout(height=size * self._ratio)
                 self._containers[1]._update_layout(height=size * (1.0 - self._ratio))
