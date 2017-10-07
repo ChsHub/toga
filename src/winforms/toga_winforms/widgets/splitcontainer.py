@@ -1,4 +1,5 @@
 from ..libs import WinForms
+from System.Drawing import Point
 
 from toga.interface import SplitContainer as SplitContainerInterface
 
@@ -15,10 +16,7 @@ class SplitContainer(SplitContainerInterface, WidgetMixin):
         self._ratio = None
 
     def create(self):
-        self._container = self
         self._impl = WinForms.SplitContainer()
-
-        # self._impl._interface = self
 
     def _add_content(self, position, container):
 
@@ -49,20 +47,33 @@ class SplitContainer(SplitContainerInterface, WidgetMixin):
             raise ValueError('Direction must be SplitContainer.VERTICAL or SplitContainer.HORIZONTAL')
 
     def _update_child_layout(self):
-        # Force a layout update on the widget.
-
+        """Force a layout update on the widget.
+        """
         if self.content and self._impl.Visible:
+            if self._ratio is None:
+                self._ratio = 0.5
+
             if self.direction == SplitContainer.VERTICAL:
                 size = self._impl.Width
-                if self._ratio is None:
-                    self._ratio = 0.5
-                    # self._impl.set_position(size * self._ratio)
+                #self._impl.Location = Point(size * self._ratio)
+                # self._impl.set_position(size * self._ratio)
                 self._containers[0]._update_layout(width=size * self._ratio)
                 self._containers[1]._update_layout(width=size * (1.0 - self._ratio))
             else:
                 size = self._impl.Height
-                if self._ratio is None:
-                    self._ratio = 0.5
-                    # self._impl.set_position(size * self._ratio)
+               # self._impl.Location = Point(size * self._ratio)
+                # self._impl.set_position(size * self._ratio)
                 self._containers[0]._update_layout(height=size * self._ratio)
                 self._containers[1]._update_layout(height=size * (1.0 - self._ratio))
+        return
+        if self.content:
+            for i, (container, content) in enumerate(zip(self._containers, self.content)):
+                #frame = container._impl.frame
+                content._update_layout(
+                    width=self._impl.Height,
+                    height=self._impl.Height
+                )
+
+
+        return
+

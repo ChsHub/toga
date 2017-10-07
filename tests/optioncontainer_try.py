@@ -63,9 +63,9 @@ class OptionContainerTry(toga.App):
         box.style.set(flex_direction='column', padding_top=10)
 
         x_box = toga.Box(style=CSS(flex_direction="column", width=300))
-        x_box.add(table)
+        x_box.add(container)
 
-        self.main_window.content = container
+        self.main_window.content = x_box
         self.main_window.show()
 
 

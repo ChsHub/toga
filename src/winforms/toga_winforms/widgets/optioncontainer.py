@@ -13,7 +13,6 @@ class OptionContainer(OptionContainerInterface, WidgetMixin):
         self._create()
 
     def create(self):
-        self._container = self
         self._impl = WinForms.TabControl()
 
     def _add_content(self, label, container, widget):

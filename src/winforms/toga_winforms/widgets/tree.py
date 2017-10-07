@@ -11,10 +11,12 @@ class Tree(TreeInterface, WidgetMixin):
 
         self._tree = None
         self._columns = None
+        self._data = None
 
         self._create()
 
     def create(self):
+
         self._container = self
         # Create a tree view.
         # The TreeView is scrollable by default in WinForms.
