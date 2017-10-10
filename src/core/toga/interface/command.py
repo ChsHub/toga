@@ -1,5 +1,13 @@
+from .platform import get_platform_factory
+
 
 class Group:
+    """
+
+    Args:
+        label:
+        order:
+    """
     def __init__(self, label, order=None):
         self.label = label
         self.order = order if order else 0
@@ -24,9 +32,24 @@ Group.HELP = Group('Help', order=100)
 
 
 class Command:
+    """
+    Args:
+            action:
+            label:
+            shortcut:
+            tooltip:
+            icon:
+            group:
+            section:
+            order:
+            factory:
+
+    Todo:
+        * Add missing docstrings.
+    """
     def __init__(self, action, label,
                  shortcut=None, tooltip=None, icon=None,
-                 group=None, section=None, order=None):
+                 group=None, section=None, order=None, factory=None):
         self.action = action
         self.label = label
 
@@ -40,6 +63,11 @@ class Command:
 
         self._enabled = self.action is not None
 
+        self._widgets = []
+
+        self.factory = get_platform_factory()
+        self._impl = self.factory.Command(interface=self)
+
     @property
     def enabled(self):
         return self._enabled
@@ -47,10 +75,8 @@ class Command:
     @enabled.setter
     def enabled(self, value):
         self._enabled = value
-        self._set_enabled(value)
-
-    def _set_enabled(self, value):
-        pass
+        for widget in self._widgets:
+            widget.enabled = value
 
 
 GROUP_BREAK = object()
@@ -62,7 +88,17 @@ def cmd_sort_key(value):
 
 
 class CommandSet:
+    """
+
+    Args:
+        widget:
+        on_change:
+
+    Todo:
+        * Add missing Docstrings.
+    """
     def __init__(self, widget, on_change=None):
+
         self.widget = widget
         self._values = set()
         self.on_change = on_change

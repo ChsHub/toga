@@ -1,7 +1,5 @@
 import toga
 #from colosseum import CSS
-
-from src.winforms.toga_winforms.widgets.table import Table
 # from src.gtk.toga_gtk.widgets.tree import Tree
 
 
@@ -10,7 +8,7 @@ def build(app):
    # self.main_window.app = self
     box = toga.Box()
 
-    table = toga.Table(['Navigate', 'Size'])
+    table = toga.Table(headings=['Navigate', 'Size'])
 #    table.style = CSS(height=50, width=614)
 
     table.insert(None, 'root1', '5mb')

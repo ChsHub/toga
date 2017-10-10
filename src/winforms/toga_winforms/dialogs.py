@@ -24,16 +24,4 @@ def stack_trace(window, title, message, content, retry=False):
 
 
 def save_file(window, title, suggested_filename, file_types):
-
-    saveFileDialog1 = WinForms.OpenFileDialog()
-
-
-    saveFileDialog1.Title = title
-    saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*"
-    saveFileDialog1.FilterIndex = 1
-    saveFileDialog1.RestoreDirectory = True
-    saveFileDialog1.ShowHelp = True
-
-    if (saveFileDialog1.ShowDialog() == WinForms.DialogResult.OK):
-        return ""
-
+    raise NotImplementedError()

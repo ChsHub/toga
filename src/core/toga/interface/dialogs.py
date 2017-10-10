@@ -1,22 +1,22 @@
 def info(window, title, message):
-    raise NotImplementedError()
+    pass
 
 
 def question(window, title, message):
-    raise NotImplementedError()
+    pass
 
 
 def confirm(window, title, message):
-    raise NotImplementedError()
+    pass
 
 
 def error(window, title, message):
-    raise NotImplementedError()
+    pass
 
 
 def stack_trace(window, title, message, content, retry=False):
-    raise NotImplementedError()
+    pass
 
 
 def save_file(window, title, suggested_filename, file_types):
-    raise NotImplementedError()
+    pass
