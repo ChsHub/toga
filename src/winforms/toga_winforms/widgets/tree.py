@@ -1,39 +1,46 @@
-from ..libs import WinForms
+from ..libs import *
+from .base import Widget
 
-from toga.interface import Tree as TreeInterface
-
-from .base import WidgetMixin
+import toga
 
 
-class Tree(TreeInterface, WidgetMixin):
+class ExtendedTreeNode(WinForms.UserControl):
+    def __init__(self, data):
+        super().__init__(data)
+        #self.AAtree_node = WinForms.TreeNode()ListViewItem
+        self.ControlAdded = WinForms.TreeView.ControlAdded
+
+
+class ExtendedTree(WinForms.UserControl):
+    def __init__(self):
+        super().__init__()
+
+    def Add1(self, Node):
+
+        WinForms.TreeView.Add(Node)
+        # WinForms.ListView.ColumnHeaderCollection(WinForms.ListView)
+
+
+class Tree(Widget):
     def __init__(self, headings, id=None, style=None):
         super(Tree, self).__init__(headings, id=id, style=style)
-
-        self._tree = None
-        self._columns = None
-        self._data = None
-
         self._create()
 
     def create(self):
-
         self._container = self
         # Create a tree view.
         # The TreeView is scrollable by default in WinForms.
-        self._impl = WinForms.TreeView()
 
-        self._columns = []
+        self._impl = ExtendedTree()
+        self._impl2 = WinForms.TreeView()
+        dataColumn = []
         for heading in self.headings:
-            pass
-            # renderer = Gtk.CellRendererText()
-            # column = Gtk.TreeViewColumn(heading, renderer, text=0)
-            # self._table.append_column(column)
+            col = WinForms.ColumnHeader()
+            col.Text = heading
+            dataColumn.append(col)
 
-            # self._impl = Gtk.ScrolledWindow()
-            # self._impl.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-            # self._impl.add(self._table)
-            # self._impl.set_min_content_width(200)
-            # self._impl.set_min_content_height(200)
+        self._impl.View = WinForms.View.Details
+        self._impl.Columns.AddRange(dataColumn)
 
     def insert(self, parent, index, *data):
 
@@ -44,10 +51,22 @@ class Tree(TreeInterface, WidgetMixin):
             parent = self._impl
 
         if index is None:
-            node = WinForms.TreeNode(data[0])
-
-            parent.Nodes.Add(node)
+            node = ExtendedTreeNode(data)
+            parent.Add1(node)
         else:
-            node = parent.Nodes.Insert(index, data[0])
+            node = parent.Items.Insert(index, data)
 
         return node
+        """
+    def _update_layout(self):
+        pass
+
+    def _set_app(self, app):
+        pass
+
+    def _set_window(self, window):
+        pass
+
+    def _set_container(self, window):
+        pass
+    """

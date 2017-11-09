@@ -1,79 +1,45 @@
-from ..libs import WinForms
-from System.Drawing import Point
-
-from toga.interface import SplitContainer as SplitContainerInterface
-
 from ..container import Container
-from .base import WidgetMixin
+from ..libs import *
+from .base import Widget
 
 
-class SplitContainer(SplitContainerInterface, WidgetMixin):
-    _CONTAINER_CLASS = Container
-
-    def __init__(self, id=None, style=None, direction=SplitContainerInterface.VERTICAL):
-        super().__init__(id=id, style=style, direction=direction)
-        self._create()
-        self._ratio = None
-
+class SplitContainer(Widget):
     def create(self):
-        self._impl = WinForms.SplitContainer()
+        self.native = WinForms.SplitContainer()
 
-    def _add_content(self, position, container):
+        self.ratio = None
+        self.containers = []
 
-        if position == 0:
-            self._impl.Panel1.Controls.Add(container._impl)
-        elif position == 1:
-            self._impl.Panel2.Controls.Add(container._impl)
+    def add_content(self, position, widget):
+        if widget.native is None:
+            container = Container()
+            container.content = widget
         else:
+            container = widget
+
+        self.containers.append(container)
+
+        if position >= 2:
             raise ValueError('SplitContainer content must be a 2-tuple')
 
-    def _set_app(self, app):
-        if self._content:
-            self._content[0].app = self.app
-            self._content[1].app = self.app
+        if position == 0:
+            panel = self.native.Panel1
+        elif position == 1:
+            panel = self.native.Panel2
 
-    def _set_window(self, window):
-        if self._content:
-            self._content[0].window = self.window
-            self._content[1].window = self.window
+        panel.Controls.Add(container.native)
 
-    def _set_direction(self, value):
+    def set_direction(self, value):
+        self.native.Orientation = WinForms.Orientation.Vertical if value else WinForms.Orientation.Horizontal
 
-        if self.direction == self.HORIZONTAL:
-            self._impl.Orientation = WinForms.Orientation.Horizontal
-        elif self.direction == self.VERTICAL:
-            self._impl.Orientation = WinForms.Orientation.Vertical
-        else:
-            raise ValueError('Direction must be SplitContainer.VERTICAL or SplitContainer.HORIZONTAL')
-
-    def _update_child_layout(self):
-        """Force a layout update on the widget.
-        """
-        if self.content and self._impl.Visible:
-            if self._ratio is None:
-                self._ratio = 0.5
-
-            if self.direction == SplitContainer.VERTICAL:
-                size = self._impl.Width
-                #self._impl.Location = Point(size * self._ratio)
-                # self._impl.set_position(size * self._ratio)
-                self._containers[0]._update_layout(width=size * self._ratio)
-                self._containers[1]._update_layout(width=size * (1.0 - self._ratio))
-            else:
-                size = self._impl.Height
-               # self._impl.Location = Point(size * self._ratio)
-                # self._impl.set_position(size * self._ratio)
-                self._containers[0]._update_layout(height=size * self._ratio)
-                self._containers[1]._update_layout(height=size * (1.0 - self._ratio))
-        return
-        if self.content:
-            for i, (container, content) in enumerate(zip(self._containers, self.content)):
-                #frame = container._impl.frame
+    def apply_sub_layout(self):
+        if self.interface.content:
+            for i, (container, content) in enumerate(zip(self.containers, self.interface.content)):
                 content._update_layout(
-                    width=self._impl.Height,
-                    height=self._impl.Height
+                    width=container.native.Width,
+                    height=container.native.Height
                 )
 
-
-        return
-
+    def update_layout(self, **style):
+        self.native.Width = style['width']
+        self.native.Height = style['height']

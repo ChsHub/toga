@@ -42,6 +42,8 @@ class App:
         self.native.Run(self.interface.main_window._impl.native)
 
     def main_loop(self):
+        self.run_app()
+        return
         thread = Threading.Thread(Threading.ThreadStart(self.run_app))
         thread.SetApartmentState(Threading.ApartmentState.STA)
         thread.Start()
