@@ -1,13 +1,11 @@
-import unittest
-from unittest.mock import MagicMock
 import toga
 import toga_dummy
+from toga_dummy.utils import TestCase
 
 
-class TestSlider(unittest.TestCase):
+class SliderTests(TestCase):
     def setUp(self):
-        self.factory = MagicMock()
-        self.factory.Slider = MagicMock(return_value=MagicMock(spec=toga_dummy.factory.Slider))
+        super().setUp()
 
         self.default = 50
         self.range = (0, 100)
@@ -22,26 +20,27 @@ class TestSlider(unittest.TestCase):
                                   range=self.range,
                                   on_slide=self.on_slide,
                                   enabled=self.enabled,
-                                  factory=self.factory)
+                                  factory=toga_dummy.factory)
 
-    def test_factory_called(self):
-        self.factory.Slider.assert_called_once_with(interface=self.slider)
+    def test_widget_created(self):
+        self.assertEqual(self.slider._impl.interface, self.slider)
+        self.assertActionPerformed(self.slider, 'create Slider')
 
     def test_parameter_are_all_set_correctly(self):
         self.assertEqual(self.slider._value, self.default)
         self.assertEqual(self.slider.range, self.range)
         self.assertEqual(self.slider._range, self.range)
-        self.assertEqual(self.slider.on_slide, self.on_slide)
+        self.assertEqual(self.slider.on_slide._raw, self.on_slide)
         self.assertEqual(self.slider.enabled, self.enabled)
 
     def test_get_value_invokes_impl_method(self):
         slider_value = self.slider.value
-        self.slider._impl.get_value.assert_called_once_with()
+        self.assertValueGet(self.slider, 'value')
 
     def test_set_value_invokes_impl_method(self):
         new_value = 33
         self.slider.value = new_value
-        self.slider._impl.set_value.assert_called_with(new_value)
+        self.assertValueSet(self.slider, 'value', new_value)
 
     def test_new_value_works_with_range(self):
         ok_value = 10
@@ -78,4 +77,3 @@ class TestSlider(unittest.TestCase):
         self.assertEqual(self.slider.enabled, self.enabled)
         self.slider.enabled = False
         self.assertEqual(self.slider.enabled, False)
-

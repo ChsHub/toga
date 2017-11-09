@@ -27,3 +27,9 @@ class Table(Widget):
         else:
             listViewItem = WinForms.ListViewItem(data)
             self.native.Items.Insert(index, listViewItem)
+
+    def refresh(self):
+        raise NotImplementedError()
+
+    def set_on_select(self, handler):
+        pass

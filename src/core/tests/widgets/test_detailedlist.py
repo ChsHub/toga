@@ -1,13 +1,24 @@
-import unittest
-from unittest.mock import MagicMock
 import toga
 import toga_dummy
+from toga_dummy.utils import TestCase
 
-class TestDetailedList(unittest.TestCase):
+
+class TestDetailedList(TestCase):
     def setUp(self):
-        self.factory = MagicMock()
-        self.factory.DetailedList = MagicMock(return_value=MagicMock(spec=toga_dummy.factory.DetailedList))
+        super().setUp()
 
-        self.text = 'test text'
+        self.on_select = None
+        self.on_delete = None
+        self.on_refresh = None
 
-        self.detailed_list = toga.DetailedList(factory=self.factory)
+        self.data = [str(x) for x in range(10)]
+
+        self.dlist = toga.DetailedList(factory=toga_dummy.factory,
+                                       data=self.data,
+                                       on_select=self.on_select,
+                                       on_delete=self.on_delete,
+                                       on_refresh=self.on_refresh)
+
+    def test_widget_created(self):
+        self.assertEqual(self.dlist._impl.interface, self.dlist)
+        self.assertActionPerformed(self.dlist, 'create DetailedList')

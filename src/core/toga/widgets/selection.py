@@ -1,4 +1,5 @@
 from .base import Widget
+from ..utils import wrapped_handler
 
 
 class Selection(Widget):
@@ -7,7 +8,7 @@ class Selection(Widget):
     Args:
         id (str): An identifier for this widget.
         style ( :class:`colosseum.CSSNode`): An optional style object.
-        If no style is provided then a new one will be created for the widget.
+            If no style is provided then a new one will be created for the widget.
         items (``list`` of ``str``): The items for the selection.
         factory (:obj:`module`): A python module that is capable to return a
             implementation of this class with the same name. (optional & normally not needed)
@@ -78,4 +79,5 @@ class Selection(Widget):
         :param handler:     callback function
         :type handler:      ``callable``
         """
-        self._on_select = handler
+        self._on_select = wrapped_handler(self, handler)
+        self._impl.set_on_select(self._on_select)

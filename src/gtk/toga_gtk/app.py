@@ -1,7 +1,7 @@
+import asyncio
+import os
 import signal
 import sys
-import os
-
 
 try:
     import gi
@@ -19,7 +19,12 @@ except ImportError:
     py_version = "%d.%d" % (sys.version_info.major, sys.version_info.minor)
 
     if sys.version_info.major == 3:
-        if os.path.isdir('/usr/lib/python3/dist-packages/'):
+        if os.path.isdir('/usr/lib64/python%s/site-packages/' % (py_version,)):
+            # Fedora
+            base_packages_dir = '/usr/lib64/python%s/site-packages/' % (py_version,)
+            gi_system_install_path = '/usr/lib64/python%s/site-packages/gi' % (py_version,)
+            installer_command = 'dnf install pygobject3 python3-gobject'
+        elif os.path.isdir('/usr/lib/python3/dist-packages/'):
             # Ubuntu, Debian
             base_packages_dir = '/usr/lib/python3/dist-packages/'
             gi_system_install_path = '/usr/local/lib/python3/dist-packages/gi'
@@ -67,16 +72,22 @@ except ImportError:
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio, GLib
 
+
 from toga.command import GROUP_BREAK, SECTION_BREAK, Command, Group
 # from .command import Command, Group
 import toga
 from .window import Window
 from toga import Icon
-from .utils import wrapped_handler
+from toga.utils import wrapped_handler
+
+import gbulb
 
 
 class MainWindow(Window):
     _IMPL_CLASS = Gtk.ApplicationWindow
+
+    def on_close(self, widget, data):
+        pass
 
 
 class App:
@@ -89,6 +100,10 @@ class App:
     def __init__(self, interface):
         self.interface = interface
         self.interface._impl = self
+
+        gbulb.install(gtk=True)
+        self.loop = asyncio.get_event_loop()
+
         self.create()
 
     def create(self):
@@ -166,7 +181,7 @@ class App:
                         cmd_id = "command-%s" % id(cmd)
                         action = Gio.SimpleAction.new(cmd_id, None)
                         if cmd.action:
-                            action.connect("activate", wrapped_handler(self, cmd.action))
+                            action.connect("activate", wrapped_handler(cmd, cmd.action))
                         cmd._widgets.append(action)
                         self._actions[cmd] = action
                         self.native.add_action(action)
@@ -197,7 +212,7 @@ class App:
         # Modify signal handlers to make sure Ctrl-C is caught and handled.
         signal.signal(signal.SIGINT, signal.SIG_DFL)
 
-        self.native.run(None)
+        self.loop.run_forever(application=self.native)
 
     def exit(self):
         self.native.quit()

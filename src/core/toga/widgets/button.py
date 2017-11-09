@@ -1,4 +1,5 @@
 from .base import Widget
+from ..utils import wrapped_handler
 
 
 class Button(Widget):
@@ -40,7 +41,7 @@ class Button(Widget):
             self._label = ''
         else:
             self._label = str(value)
-        self._impl.set_label(str(value))
+        self._impl.set_label(self.label)
 
     @property
     def on_press(self):
@@ -53,5 +54,5 @@ class Button(Widget):
 
     @on_press.setter
     def on_press(self, handler):
-        self._on_press = handler
-        self._impl.set_on_press(handler)
+        self._on_press = wrapped_handler(self, handler)
+        self._impl.set_on_press(self._on_press)

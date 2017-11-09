@@ -1,48 +1,110 @@
-.. _tutorial:
+.. raw:: html
 
+    <style>
+        .row {clear: both}
+
+        .column img {border: 1px solid black;}
+
+        @media only screen and (min-width: 1000px),
+               only screen and (min-width: 500px) and (max-width: 768px){
+
+            .column {
+                padding-left: 5px;
+                padding-right: 5px;
+                float: left;
+            }
+
+            .column3  {
+                width: 33.3%;
+            }
+
+            .column2  {
+                width: 50%;
+            }
+        }
+    </style>
+
+
+====
+Toga
+====
+
+Toga is a Python native, OS native, cross platform GUI toolkit. Toga consists of a library of base components with a shared
+interface to simplify platform-agnostic GUI development.
+
+Toga is available on Mac OS, Windows, Linux (GTK), and mobile platforms such as Android and iOS.
+
+.. figure:: tutorial/screenshots/tutorial-2.png
+    :align: center
+    :width: 500
+
+
+.. rst-class::  row
+
+Table of contents
+=================
+
+.. rst-class:: clearfix row
+
+.. rst-class:: column column2
+
+
+:ref:`Tutorial <tutorial>`
+------------------------------
+
+Get started with a hands-on introduction to Toga for beginners
+
+.. rst-class:: column column2
+
+
+:ref:`How-to guides <how-to>`
+-----------------------------
+
+Guides and recipes for common problems and tasks
+
+
+.. rst-class:: column column2
+
+:ref:`Background <background>`
+------------------------------
+
+Explanation and discussion of key topics and concepts
+
+
+.. rst-class:: column column2
+
+:ref:`Reference <reference>`
+------------------------------
+
+Technical reference - commands, modules, classes, methods
+
+
+.. rst-class:: clearfix row
+
+
+Community
 =========
-Tutorials
-=========
+
+Toga is part of the `BeeWare suite`_. You can talk to the community through:
+
+ * `@pybeeware on Twitter`_
+
+ * `pybee/general on Gitter`_
+
+.. _BeeWare suite: http://pybee.org
+.. _Read The Docs: https://toga.readthedocs.io
+.. _@pybeeware on Twitter: https://twitter.com/pybeeware
+.. _pybee/general on Gitter: https://gitter.im/pybee/general
+
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
+   :hidden:
    :titlesonly:
 
-   tutorial-0
-   tutorial-1
-   tutorial-2
-   tutorial-3
 
-
-Tutorial 0 - your first Toga app
-================================
-
-In :doc:`tutorial-0`, you will discover how to create a basic app and have a simple :mod:`toga.interface.widgets.button.Button` widget to click.
-
-Tutorial 1 - a slightly less toy example
-========================================
-
-In :doc:`tutorial-1`, you will discover how to capture basic user input using the :mod:`toga.interface.widgets.textinput.TextInput` widget
-and control layout.
-
-Tutorial 2 - you put the box inside another box...
-==================================================
-
-In :doc:`tutorial-2`, you will discover how to use the :mod:`toga.interface.widgets.splitcontainer.SplitContainer` widget to display
-some components, a toolbar and a table.
-
-.. figure:: screenshots/tutorial-2.png
-    :align: center
-    :width: 300
-
-Tutorial 3 - let's build a browser!
-===================================
-
-In :doc:`tutorial-3`, you will discover how to use the :mod:`toga.interface.widgets.webview.WebView` widget to display
-a simple browser.
-
-.. figure:: screenshots/tutorial-3.png
-    :align: center
-    :width: 300
-
-
+   tutorial/index
+   how-to/index
+   reference/index
+   background/index
+   project/index

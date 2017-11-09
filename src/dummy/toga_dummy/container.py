@@ -1,7 +1,7 @@
-from toga_dummy.utils import not_required_on
+from toga_dummy.utils import not_required_on, LoggedObject
 
 
-@not_required_on('gtk')
+@not_required_on('gtk', 'winforms', 'android', 'web')
 class Constraints:
     def __init__(self, widget):
         pass
@@ -20,9 +20,6 @@ class Constraints:
 
     @container.setter
     def container(self, value):
-        pass
-
-    def make_root(self):
         pass
 
     def update(self):
@@ -61,25 +58,14 @@ class Constraints:
         pass
 
 
-class Container:
-    def __init__(self):
-        pass
-
+class Container(LoggedObject):
     @property
     def content(self):
-        pass
+        return self._get_value('content')
 
     @content.setter
     def content(self, widget):
-        pass
-
-    @property
-    def root_content(self):
-        pass
-
-    @root_content.setter
-    def root_content(self, widget):
-        pass
+        self._set_value('content', widget)
 
     def update_layout(self, **style):
-        pass
+        self._action('update container layout', style=style)
