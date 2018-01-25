@@ -1,6 +1,6 @@
 from ..libs import *
 from .base import Widget
-from toga.constants import LEFT_ALIGNED
+
 
 
 class Label(Widget):

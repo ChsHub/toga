@@ -33,9 +33,11 @@ class Button(Widget):
         pass
 
     def rehint(self):
+        pass
+
         # self.native.Size = Size(0, 0)
         # print("REHINT Button", self, self.native.PreferredSize)
-        self.interface.style.hint(
-            height=self.native.PreferredSize.Height,
-            min_width=self.native.PreferredSize.Width,
-        )
+        #self.interface.style.hint(
+        #    height=self.native.PreferredSize.Height,
+        #    min_width=self.native.PreferredSize.Width,
+        #)

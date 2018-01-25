@@ -62,18 +62,18 @@ class Window:
         # a minimum window size.
         TITLEBAR_HEIGHT = 36  # FIXME: this shouldn't be hard coded...
         self.native.MinimumSize = Size(
-            int(self.interface.content.layout.width),
-            int(self.interface.content.layout.height) + TITLEBAR_HEIGHT
+           # int(self.interface.content.layout.width),
+            #int(self.interface.content.layout.height) + TITLEBAR_HEIGHT
         )
 
         # Set the size of the container to be the same as the window
         self.container.native.Size = self.native.ClientSize
 
         # Do the first layout render.
-        self.container.update_layout(
-            width=self.native.ClientSize.Width,
-            height=self.native.ClientSize.Height,
-        )
+##        self.container.update_layout(
+  #          width=self.native.ClientSize.Width,
+   #         height=self.native.ClientSize.Height,
+   #     )
 
     def on_close(self):
         pass

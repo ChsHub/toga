@@ -28,9 +28,9 @@ class Table(Widget):
 
     def refresh(self):
         self.data.clear()
-
-        for row in self.interface.data.rows:
-            self.data.append(row.data)
+        if self.interface.data is not None:
+            for row in self.interface.data.rows:
+                self.data.append(row.data)
 
     def set_on_select(self, handler):
 

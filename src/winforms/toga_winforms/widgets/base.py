@@ -39,7 +39,7 @@ class Widget:
         for child in self.interface.children:
             child._impl.container = container
 
-        self.interface.rehint()
+        #self.interface.rehint()
 
     def add_child(self, child):
         if self.container:
